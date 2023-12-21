@@ -1,9 +1,15 @@
 import Course from '../models/Course.js';
 import Category from '../models/Category.js';
+import User from '../models/User.js';
 
 export const createCourse = async (req, res) => {
   try {
-    const course = await Course.create(req.body);
+    const course = await Course.create({
+      name: req.body.name,
+      description: req.body.description,
+      category: req.body.category,
+      user: req.session.userID
+    });
     res.status(201).redirect('/courses')
   } catch (error) {
     console.error('Error:', error);
@@ -42,12 +48,28 @@ export const getAllCourses = async (req, res) => {
 
 export const getCourse = async (req, res) => {
   try {
-    const course = await Course.findOne({slug:req.params.slug});
+    const course = await Course.findOne({slug:req.params.slug}).populate('user');
     
     res.status(200).render('course', {
       page_name: 'course',
       course,
     });
+  } catch (error) {
+    res.status(400).json({
+      status: 'fail',
+      error,
+    });
+  }
+};
+
+export const enrollCourse = async (req, res) => {
+  try {
+
+    const user = await User.findById(req.session.userID);
+    await user.courses.push({_id:req.body.course_id});
+    await user.save();
+
+    res.status(200).redirect('/users/dashboard');
   } catch (error) {
     res.status(400).json({
       status: 'fail',
