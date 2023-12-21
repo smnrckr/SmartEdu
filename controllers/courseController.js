@@ -4,11 +4,7 @@ import Category from '../models/Category.js';
 export const createCourse = async (req, res) => {
   try {
     const course = await Course.create(req.body);
-    console.log('Courses:', course);
-    res.status(201).json({
-      status: 'success',
-      course,
-    });
+    res.status(201).redirect('/courses')
   } catch (error) {
     console.error('Error:', error);
     res.status(400).json({
@@ -29,7 +25,7 @@ export const getAllCourses = async (req, res) => {
     }
 
 
-    const courses = await Course.find(filter);
+    const courses = await Course.find(filter).sort('-createdAt');
     const categories = await Category.find();
     res.status(200).render('courses', {
       page_name: 'courses',
