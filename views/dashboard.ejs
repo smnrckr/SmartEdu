@@ -1,5 +1,9 @@
-<%- include('partials/_header'); %> <%- include('partials/_navigation'); %> <%
-if(user) {%> <% if(user.role ==='student'){%>
+<%- include('partials/_header'); %>
+
+ <%- include('partials/_navigation'); %> 
+ 
+ 
+ <%if(user) {%> <% if(user.role ==='student'){%>
 <div class="all-title-box">
   <div class="container text-center">
     <h1><%=user.name %><span class="m_1">STUDENT</span></h1>
@@ -16,9 +20,7 @@ if(user) {%> <% if(user.role ==='student'){%>
 
         </div>
       </div>
-      <!-- end col -->
     </div>
-    <!-- end row -->
     <div class="row mt-5">
       <% for (let i=0; i< user.courses.length; i++) { %>
 
@@ -34,6 +36,10 @@ if(user) {%> <% if(user.role ==='student'){%>
             <div class="course-desc">
               <p>
                 <%= user.courses[i].description %>
+                <form method="POST" action="/courses/release">
+                  <input type="hidden" name="course_id" value="<%= user.courses[i]._id %>">
+                  <button class="btn btn-lg btn-danger text-white"><span>RELEASE</span></button>
+                  </form>
               </p>
             </div>
           </div>
@@ -75,9 +81,7 @@ if(user) {%> <% if(user.role ==='student'){%>
           </div>
         </div>
       </div>
-      <!-- end col -->
     </div>
-    <!-- end row -->
     <div class="row mt-5">
       <% for (let i=0; i< categories.length; i++){ %>
 
@@ -88,26 +92,22 @@ if(user) {%> <% if(user.role ==='student'){%>
           </div>
           <div class="course-br">
             <div class="course-title">
-              <h2><a href="/courses/<%= courses[i].slug %>" title=""><%= courses[i].name %></a></h2>
-            </div>
-            <div class="course-desc">
-              <p>
-                <%= courses[i].description %>
-              </p>
+              <% if (courses && courses[i]) { %>
+                <h2><a href="/courses/<%= courses[i].slug %>" title=""><%= courses[i].name %></a></h2>
+              <% } else { %>
+                <p><%= courses[i].description %></p>
+              <% } %>
+              
+              
             </div>
           </div>
         </div>
       </div>
       <% } %>
-      <!-- end col -->
 
-      <!-- end col -->
     </div>
-    <!-- end row -->
   </div>
-  <!-- end container -->
 </div>
-<!-- end section -->
 
 <div
   class="modal fade"
@@ -192,4 +192,5 @@ if(user) {%> <% if(user.role ==='student'){%>
     </div>
   </div>
 </div>
+
 <% } %> <% } %> <%- include('partials/_footer'); %>

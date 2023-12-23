@@ -8,13 +8,15 @@ export const createUser = async (req, res) => {
     const user = await User.create(req.body);
     res.status(201).redirect('/login');
   } catch (error) {
-    console.error('Error:', error);
-    res.status(400).json({
-      status: 'fail',
-      error,
-    });
+    const errors = validationResult(req);
+    console.log(errors);
+    console.log(errors.array()[0].msg);
+    req.flash("error", `${errors.array()[0].msg}`);
+    res.status(400).redirect('/register');
+
   }
 };
+
 
 export const loginUser = async (req, res) => {
   try {
@@ -28,10 +30,16 @@ export const loginUser = async (req, res) => {
         // USER SESSION
         req.session.userID = user._id;
         return res.status(200).redirect('/users/dashboard');
-      }
-    }
+      }else{
+        req.flash("error", "Your password is not correct!");
+        return res.status(400).redirect('/users/login');
 
-    res.status(401).send('Invalid email or password');
+      }
+    }else{
+      req.flash("error", "User is not exist!");
+      return res.status(400).redirect('/users/login');
+
+    }
   } catch (error) {
     res.status(500).json({
       status: 'fail',

@@ -17,7 +17,6 @@
       <div class="col-lg-9 blog-post-single">
         <div class="row">
           <% for (let i=0; i< courses.length; i++) { %>
-
           <div class="col-lg-6 col-md-6 col-12">
             <div class="course-item mb-5">
               <div class="image-blog">
@@ -29,13 +28,13 @@
                     <a href="/courses/<%= courses[i].slug %>" title=""><%= courses[i].name %></a></h2>
                 </div>
                 <div class="course-desc">
-                  <p><%= courses[i].description %></p>
+                  <p><%= courses[i].description.substring(0,100) + "..." %></p>
                 </div>
               </div>
               <div class="course-meta-bot">
                 <ul>
                   <li>
-                    <i class="fa fa-user" aria-hidden="true"></i>Teacher Name
+                    <i class="fa fa-user" aria-hidden="true"></i><%= courses[i].user.name %>
                   </li>
                 </ul>
               </div>
@@ -50,16 +49,16 @@
       <div class="col-lg-3 col-12 right-single">
         <div class="widget-search">
           <div class="site-search-area">
-            <form method="get" id="site-searchform" action="#">
+            <form method="GET" id="site-searchform" action="/courses">
               <div>
                 <input
                   class="input-text form-control"
-                  name="search-k"
+                  name="search"
                   id="search-k"
-                  placeholder="Search keywords..."
+                  placeholder="Search"
                   type="text"
                 />
-                <input id="searchsubmit" value="Search" type="submit" />
+                <button id="searchsubmit" value="Search" type="submit"></button>
               </div>
             </form>
           </div>

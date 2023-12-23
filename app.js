@@ -2,6 +2,7 @@ import express from 'express';
 import pageRoute from './routes/pageRoute.js';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
+import flash  from 'express-flash';
 import mongoose from 'mongoose';
 import courseRoute from './routes/courseRoute.js';
 import categoryRoute from './routes/categoryRoute.js';
@@ -40,8 +41,10 @@ app.use('/', pageRoute);
 app.use('/courses', courseRoute);
 app.use('/categories', categoryRoute);
 app.use('/users', userRoute);
+app.use(flash());
 
 const port = 3000;
 app.listen(port, () => {
   console.log(`App started on port ${port}`);
 });
+
