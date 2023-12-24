@@ -1,6 +1,6 @@
 
 import express from "express";
-import {createUser,getDashboardPage,loginUser, logoutUser} from '../controllers/authController.js';
+import {createUser,deleteUser,getDashboardPage,loginUser, logoutUser} from '../controllers/authController.js';
 import authMiddleware from '../middlewares/authMiddleware.js';
 import { body } from 'express-validator';
 import User from '../models/User.js';
@@ -28,5 +28,7 @@ router.route('/signup').post(
 router.route('/logout').get(logoutUser);
 router.route('/dashboard').get(authMiddleware, getDashboardPage);
 router.route('/login').post(loginUser);
+router.route('/:id').delete(deleteUser);
+
 export default router;
 

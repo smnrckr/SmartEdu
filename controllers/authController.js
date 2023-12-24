@@ -140,7 +140,7 @@ export const getDashboardPage = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    await User.findByIdAndRemove(req.params.id);
+    await User.findByIdAndDelete(req.params.id);
     await Course.deleteMany({ user: req.params.id });
 
     res.status(200).redirect('/users/dashboard');
