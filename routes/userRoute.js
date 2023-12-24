@@ -27,6 +27,6 @@ router.route('/signup').post(
     createUser); // http://localhost:3000/users/signuprouter.route('/login').post(loginUser);
 router.route('/logout').get(logoutUser);
 router.route('/dashboard').get(authMiddleware, getDashboardPage);
-
+router.route('/login').post(loginUser);
 export default router;
 
